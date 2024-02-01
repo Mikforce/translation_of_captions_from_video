@@ -1,0 +1,7 @@
+googletrans
+opencv-python
+easyocr
+matplotlib
+numpy
+moviepy
+translate
