@@ -3,8 +3,8 @@ This repository contains code to detect and translate text into video in the bac
 
 In subsequent development, it would be nice to implement an additional method for natural Russian language processing (NLP)
 
-screenshots from the player after processing the video on the free library![result](img/2024-02-01_13-45-50.png)
-[result](img/2024-02-01_13-54-56.png)
+screenshots from the player after processing the video![result](img/2024-02-01_13-45-50.png)
+screenshots from the player after processing the video![result2](img/2024-02-01_13-54-56.png)
 
 Requirements
 Python 3.x
@@ -14,7 +14,7 @@ EasyOCR
 Matplotlib
 NumPy
 Google Translate API
-Translates 
+Translates
 MoviePy
 Installation
 Clone the repository:
@@ -49,4 +49,3 @@ Make sure to replace video_text_detection.py with the name of the script if you 
 
 Output
 The script will process each frame of the video, detect text using EasyOCR, translate the detected text to Russian, and save the processed video as final_video.mp4 in the specified output directory.
-
