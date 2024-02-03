@@ -91,13 +91,15 @@
 # else:
 #     print("Ошибка при открытии видео файла")
 
-
+import spacy
 import cv2
 import easyocr
 import numpy as np
 from translate import Translator
 import moviepy.editor as mp
 
+
+nlp = spacy.load("en_core_web_sm")
 
 # Загрузка видеофайла
 video = cv2.VideoCapture('3.mp4')
@@ -143,20 +145,24 @@ while True:
     for t_, t in enumerate(results):
         bbox, text, score = t
         if score > threshold:
-            translated_text = translate_text(text)
-            print(text)
-            # cv2.rectangle(frame, bbox[0], bbox[2], (0, 255, 0), 5)
-            bbox = np.array(bbox, dtype=int)
-            text_size, _ = cv2.getTextSize(translated_text, cv2.FONT_HERSHEY_COMPLEX, 1, 2)
-            text_x = bbox[0][0]
-            text_y = bbox[0][1] - text_size[1] // 2  # Выравнивание текста по центру прямоугольника по вертикали
-            font_size = 1.5
-            font_color = (0, 255, 0)  # Зеленый цвет
-            font_thickness = 2
-            font_style = cv2.FONT_HERSHEY_COMPLEX
-            cv2.putText(frame, translated_text, (text_x, text_y), font_style, font_size, font_color, font_thickness)
-    # Запись обработанного кадра в выходное видео
-    output_video.write(frame)
+            doc = nlp(text)
+            for token in doc:
+                print(token.lemma_)
+                translated_text = translate_text(token.lemma_)
+
+                print(text)
+                # cv2.rectangle(frame, bbox[0], bbox[2], (0, 255, 0), 5)
+                bbox = np.array(bbox, dtype=int)
+                text_size, _ = cv2.getTextSize(translated_text, cv2.FONT_HERSHEY_COMPLEX, 1, 2)
+                text_x = bbox[0][0]
+                text_y = bbox[0][1] - text_size[1] // 2  # Выравнивание текста по центру прямоугольника по вертикали
+                font_size = 1.5
+                font_color = (0, 255, 0)  # Зеленый цвет
+                font_thickness = 2
+                font_style = cv2.FONT_HERSHEY_COMPLEX
+                cv2.putText(frame, translated_text, (text_x, text_y), font_style, font_size, font_color, font_thickness)
+        # Запись обработанного кадра в выходное видео
+        output_video.write(frame)
 
 # Освобождение ресурсов
 video.release()
